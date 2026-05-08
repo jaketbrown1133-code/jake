@@ -34,10 +34,10 @@ export default function Navbar() {
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
       style={{
         background: scrolled
-          ? "rgba(5, 6, 8, 0.95)"
-          : "rgba(5, 6, 8, 0.7)",
-        backdropFilter: "blur(16px)",
-        borderBottom: scrolled ? "1px solid rgba(0,229,204,0.1)" : "1px solid transparent",
+          ? "rgba(13, 11, 8, 0.96)"
+          : "rgba(13, 11, 8, 0.75)",
+        backdropFilter: "blur(18px)",
+        borderBottom: scrolled ? "1px solid rgba(240,160,48,0.12)" : "1px solid transparent",
       }}
     >
       <LEDBar />
@@ -63,7 +63,7 @@ export default function Navbar() {
                               : "text-gray-400 hover:text-white"
                           }`
                     }
-                    style={active && !isQuote ? { color: "#00e5cc" } : {}}
+                    style={active && !isQuote ? { color: "#f0a030" } : {}}
                   >
                     {label}
                   </Link>
@@ -100,7 +100,7 @@ export default function Navbar() {
       {menuOpen && (
         <div
           className="md:hidden px-4 pb-4 pt-2 space-y-1"
-          style={{ background: "rgba(5,6,8,0.98)", borderTop: "1px solid rgba(0,229,204,0.08)" }}
+          style={{ background: "rgba(13,11,8,0.98)", borderTop: "1px solid rgba(240,160,48,0.08)" }}
         >
           {navLinks.map(({ href, label }) => (
             <Link
@@ -109,7 +109,7 @@ export default function Navbar() {
               className={`block px-3 py-2 rounded text-sm font-medium transition-colors ${
                 pathname === href ? "text-white" : "text-gray-400 hover:text-white"
               }`}
-              style={pathname === href ? { color: "#00e5cc" } : {}}
+              style={pathname === href ? { color: "#f0a030" } : {}}
             >
               {label}
             </Link>
