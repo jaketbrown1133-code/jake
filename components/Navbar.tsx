@@ -1,72 +1,88 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import LEDBar from "./LEDBar";
-import Logo from "./Logo";
 
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/technology", label: "Technology" },
-  { href: "/installation", label: "Installation" },
-  { href: "/contact", label: "Get a Quote" },
+const NAV_LINKS = [
+  { href: "#what-is", label: "What Is It" },
+  { href: "#experience", label: "Experience" },
+  { href: "#features", label: "Features" },
+  { href: "#territory", label: "Service Area" },
+  { href: "#quote", label: "Get a Quote" },
 ];
 
 export default function Navbar() {
-  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
+  const handleNav = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
     setMenuOpen(false);
-  }, [pathname]);
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
-        background: scrolled
-          ? "rgba(13, 11, 8, 0.96)"
-          : "rgba(13, 11, 8, 0.75)",
-        backdropFilter: "blur(18px)",
-        borderBottom: scrolled ? "1px solid rgba(240,160,48,0.12)" : "1px solid transparent",
+        background: scrolled ? "rgba(26,26,26,0.97)" : "transparent",
+        backdropFilter: scrolled ? "blur(20px)" : "none",
+        borderBottom: scrolled ? "1px solid rgba(201,168,76,0.1)" : "1px solid transparent",
       }}
     >
-      <LEDBar />
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <Logo />
+      <nav className="max-w-7xl mx-auto px-6 lg:px-10">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <a
+            href="#"
+            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+            className="flex flex-col leading-none"
+            style={{ textDecoration: "none" }}
+          >
+            <span
+              className="text-lg font-bold tracking-wide font-serif"
+              style={{ color: "#f5f0e8", letterSpacing: "0.05em" }}
+            >
+              UNDERCOVER
+            </span>
+            <span
+              className="text-xs font-light tracking-[0.3em] uppercase font-sans"
+              style={{ color: "#c9a84c" }}
+            >
+              Outdoors
+            </span>
+          </a>
 
           {/* Desktop links */}
-          <ul className="hidden md:flex items-center gap-1">
-            {navLinks.map(({ href, label }) => {
-              const active = pathname === href;
+          <ul className="hidden md:flex items-center gap-8">
+            {NAV_LINKS.map(({ href, label }) => {
               const isQuote = label === "Get a Quote";
               return (
                 <li key={href}>
-                  <Link
+                  <a
                     href={href}
+                    onClick={(e) => handleNav(e, href)}
                     className={
                       isQuote
-                        ? "ml-4 px-4 py-2 rounded text-sm font-semibold text-black led-gradient-bg transition-opacity hover:opacity-90"
-                        : `px-4 py-2 text-sm font-medium rounded transition-colors ${
-                            active
-                              ? "text-white"
-                              : "text-gray-400 hover:text-white"
-                          }`
+                        ? "btn-gold text-xs"
+                        : "text-sm font-medium transition-colors duration-200"
                     }
-                    style={active && !isQuote ? { color: "#f0a030" } : {}}
+                    style={
+                      !isQuote
+                        ? { color: "rgba(245,240,232,0.7)", fontFamily: "var(--font-sans)", letterSpacing: "0.04em" }
+                        : {}
+                    }
+                    onMouseEnter={!isQuote ? (e) => (e.currentTarget.style.color = "#c9a84c") : undefined}
+                    onMouseLeave={!isQuote ? (e) => (e.currentTarget.style.color = "rgba(245,240,232,0.7)") : undefined}
                   >
                     {label}
-                  </Link>
+                  </a>
                 </li>
               );
             })}
@@ -74,21 +90,22 @@ export default function Navbar() {
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden p-2 text-gray-400 hover:text-white"
+            className="md:hidden p-2"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
+            style={{ color: "var(--off-white)" }}
           >
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               {menuOpen ? (
                 <>
-                  <line x1="3" y1="3" x2="19" y2="19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                  <line x1="19" y1="3" x2="3" y2="19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="4" y1="4" x2="20" y2="20" strokeLinecap="round" />
+                  <line x1="20" y1="4" x2="4" y2="20" strokeLinecap="round" />
                 </>
               ) : (
                 <>
-                  <line x1="3" y1="6"  x2="19" y2="6"  stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                  <line x1="3" y1="11" x2="19" y2="11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                  <line x1="3" y1="16" x2="19" y2="16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="4" y1="7"  x2="20" y2="7"  strokeLinecap="round" />
+                  <line x1="4" y1="12" x2="20" y2="12" strokeLinecap="round" />
+                  <line x1="4" y1="17" x2="20" y2="17" strokeLinecap="round" />
                 </>
               )}
             </svg>
@@ -99,20 +116,24 @@ export default function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <div
-          className="md:hidden px-4 pb-4 pt-2 space-y-1"
-          style={{ background: "rgba(13,11,8,0.98)", borderTop: "1px solid rgba(240,160,48,0.08)" }}
+          className="md:hidden px-6 pb-6 pt-2 space-y-1"
+          style={{
+            background: "rgba(26,26,26,0.98)",
+            borderTop: "1px solid rgba(201,168,76,0.1)",
+          }}
         >
-          {navLinks.map(({ href, label }) => (
-            <Link
+          {NAV_LINKS.map(({ href, label }) => (
+            <a
               key={href}
               href={href}
-              className={`block px-3 py-2 rounded text-sm font-medium transition-colors ${
-                pathname === href ? "text-white" : "text-gray-400 hover:text-white"
-              }`}
-              style={pathname === href ? { color: "#f0a030" } : {}}
+              onClick={(e) => handleNav(e, href)}
+              className="block py-3 text-sm font-medium transition-colors"
+              style={{ color: "rgba(245,240,232,0.7)", fontFamily: "var(--font-sans)", letterSpacing: "0.04em" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#c9a84c")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(245,240,232,0.7)")}
             >
               {label}
-            </Link>
+            </a>
           ))}
         </div>
       )}
