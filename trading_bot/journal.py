@@ -9,11 +9,12 @@ from config import ALERT_EMAIL, ALERT_EMAIL_PASSWORD, ALERT_TO_EMAIL
 logger = logging.getLogger(__name__)
 
 JOURNAL_FILE = "trade_journal.csv"
-HEADERS = ["date", "time_est", "symbol", "direction", "entry", "stop_loss", "take_profit",
-           "contracts", "outcome", "pnl", "notes"]
+HEADERS = ["date", "time_est", "symbol", "direction", "entry", "stop_loss",
+           "take_profit", "shares", "outcome", "pnl", "notes"]
 
 
-def log_trade(symbol, direction, entry, stop_loss, take_profit, contracts, outcome="OPEN", pnl=0.0, notes=""):
+def log_trade(symbol, direction, entry, stop_loss, take_profit,
+              shares, outcome="OPEN", pnl=0.0, notes=""):
     file_exists = os.path.isfile(JOURNAL_FILE)
     now = datetime.now()
     row = {
@@ -24,7 +25,7 @@ def log_trade(symbol, direction, entry, stop_loss, take_profit, contracts, outco
         "entry": entry,
         "stop_loss": stop_loss,
         "take_profit": take_profit,
-        "contracts": contracts,
+        "shares": shares,
         "outcome": outcome,
         "pnl": pnl,
         "notes": notes,
@@ -34,7 +35,7 @@ def log_trade(symbol, direction, entry, stop_loss, take_profit, contracts, outco
         if not file_exists:
             writer.writeheader()
         writer.writerow(row)
-    logger.info(f"Trade logged to journal: {direction} {symbol} @ {entry}")
+    logger.info(f"Trade logged: {direction} {symbol} @ {entry}")
 
 
 def send_alert(subject: str, body: str):
@@ -50,4 +51,4 @@ def send_alert(subject: str, body: str):
             server.send_message(msg)
         logger.info(f"Alert sent: {subject}")
     except Exception as e:
-        logger.warning(f"Failed to send alert email: {e}")
+        logger.warning(f"Failed to send alert: {e}")

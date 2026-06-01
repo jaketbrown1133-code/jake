@@ -1,84 +1,42 @@
 import requests
 import logging
 from auth import auth_headers
-from config import BASE_URL
+from config import BASE_URL, SYMBOL
 from strategy import TradeSignal
 
 logger = logging.getLogger(__name__)
 
 
-def place_order(account_id: int, contract_id: int, signal: TradeSignal, contracts: int) -> dict:
-    """Places a bracket order: entry + stop loss + take profit."""
+def place_order(signal: TradeSignal, shares: int) -> dict:
+    side = "buy" if signal.direction == "BUY" else "sell"
 
-    action = "Buy" if signal.direction == "BUY" else "Sell"
-
-    # Place the entry order (market order for immediate fill)
-    order_payload = {
-        "accountSpec": str(account_id),
-        "accountId": account_id,
-        "action": action,
-        "symbol": "",           # Tradovate uses contractId
-        "orderQty": contracts,
-        "orderType": "Market",
-        "contractId": contract_id,
-        "isAutomated": True,
+    # Main market order
+    payload = {
+        "symbol": SYMBOL,
+        "qty": str(shares),
+        "side": side,
+        "type": "market",
+        "time_in_force": "day",
+        "order_class": "bracket",
+        "stop_loss": {"stop_price": str(round(signal.stop_loss, 2))},
+        "take_profit": {"limit_price": str(round(signal.take_profit, 2))},
     }
 
     resp = requests.post(
-        f"{BASE_URL}/order/placeorder",
-        json=order_payload,
+        f"{BASE_URL}/v2/orders",
+        json=payload,
         headers=auth_headers(),
         timeout=10,
     )
     resp.raise_for_status()
-    order_data = resp.json()
-    order_id = order_data.get("orderId")
-    logger.info(f"Entry order placed: {action} {contracts} contract(s) | Order ID: {order_id}")
-
-    # Place stop loss
-    stop_action = "Sell" if signal.direction == "BUY" else "Buy"
-    _place_stop(account_id, contract_id, stop_action, contracts, signal.stop_loss)
-
-    # Place take profit limit order
-    _place_limit(account_id, contract_id, stop_action, contracts, signal.take_profit)
-
-    return order_data
+    data = resp.json()
+    logger.info(f"Order placed: {side.upper()} {shares} shares of {SYMBOL} | ID: {data.get('id')}")
+    return data
 
 
-def _place_stop(account_id, contract_id, action, qty, price):
-    payload = {
-        "accountId": account_id,
-        "action": action,
-        "contractId": contract_id,
-        "orderQty": qty,
-        "orderType": "Stop",
-        "stopPrice": price,
-        "isAutomated": True,
-    }
-    resp = requests.post(f"{BASE_URL}/order/placeorder", json=payload, headers=auth_headers(), timeout=10)
-    resp.raise_for_status()
-    logger.info(f"Stop loss placed at {price}")
-
-
-def _place_limit(account_id, contract_id, action, qty, price):
-    payload = {
-        "accountId": account_id,
-        "action": action,
-        "contractId": contract_id,
-        "orderQty": qty,
-        "orderType": "Limit",
-        "price": price,
-        "isAutomated": True,
-    }
-    resp = requests.post(f"{BASE_URL}/order/placeorder", json=payload, headers=auth_headers(), timeout=10)
-    resp.raise_for_status()
-    logger.info(f"Take profit placed at {price}")
-
-
-def cancel_all_orders(account_id: int):
-    resp = requests.post(
-        f"{BASE_URL}/order/cancelallorders",
-        json={"accountId": account_id},
+def cancel_all_orders():
+    resp = requests.delete(
+        f"{BASE_URL}/v2/orders",
         headers=auth_headers(),
         timeout=10,
     )
@@ -86,12 +44,11 @@ def cancel_all_orders(account_id: int):
     logger.info("All open orders cancelled.")
 
 
-def close_all_positions(account_id: int, contract_id: int):
-    resp = requests.post(
-        f"{BASE_URL}/order/liquidateposition",
-        json={"accountId": account_id, "contractId": contract_id, "admin": False},
+def close_all_positions():
+    resp = requests.delete(
+        f"{BASE_URL}/v2/positions",
         headers=auth_headers(),
         timeout=10,
     )
     resp.raise_for_status()
-    logger.info("All positions liquidated.")
+    logger.info("All positions closed.")

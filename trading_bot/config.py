@@ -1,20 +1,16 @@
-# Tradovate API credentials — fill these in from your Tradovate account
+# Alpaca API credentials — fill these in from your Alpaca account
 # NEVER share or commit this file with real credentials
 
-TRADOVATE_USERNAME = "your_username"
-TRADOVATE_PASSWORD = "your_password"
-TRADOVATE_APP_ID = "your_app_id"          # From Tradovate developer portal
-TRADOVATE_APP_VERSION = "1.0"
-TRADOVATE_CID = "your_cid"               # Client ID from developer portal
-TRADOVATE_SEC = "your_secret"            # Client secret from developer portal
+ALPACA_API_KEY = "your_api_key_here"
+ALPACA_SECRET_KEY = "your_secret_key_here"
 
-# Use demo endpoint while testing, live when ready
+# Use paper trading endpoint while testing (completely free, no real money)
 USE_LIVE = False
-BASE_URL = "https://live.tradovateapi.com/v1" if USE_LIVE else "https://demo.tradovateapi.com/v1"
-WS_URL = "wss://md.tradovateapi.com/v1/websocket" if USE_LIVE else "wss://md.sim.tradovateapi.com/v1/websocket"
+BASE_URL = "https://api.alpaca.markets" if USE_LIVE else "https://paper-api.alpaca.markets"
 
-# What to trade — Micro E-mini NQ futures (smaller contract, lower risk for beginners)
-CONTRACT_SYMBOL = "MNQM5"   # Update the month code each expiry (M=June, U=Sept, Z=Dec, H=March)
+# What to trade — we'll trade a liquid ETF that tracks the Nasdaq
+# TQQQ moves like NQ futures but is available on Alpaca for free
+SYMBOL = "TQQQ"
 
 # Risk settings
 RISK_PER_TRADE_PCT = 0.01     # 1% of account per trade
