@@ -60,8 +60,8 @@ def run_session():
         while True:
             now = est_now()
 
-            # Hard close at 3 AM
-            if now.hour >= SESSION_CLOSE_HOUR and now.minute >= SESSION_CLOSE_MINUTE:
+            # Hard close at 3 AM — only triggers between midnight and 6 AM to avoid false positives
+            if 0 <= now.hour <= 6 and now.hour >= SESSION_CLOSE_HOUR:
                 logger.info("3 AM reached — closing all positions.")
                 cancel_all_orders()
                 close_all_positions()

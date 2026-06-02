@@ -8,9 +8,8 @@ ALPACA_SECRET_KEY = "your_secret_key_here"
 USE_LIVE = False
 BASE_URL = "https://api.alpaca.markets" if USE_LIVE else "https://paper-api.alpaca.markets"
 
-# What to trade — we'll trade a liquid ETF that tracks the Nasdaq
-# TQQQ moves like NQ futures but is available on Alpaca for free
-SYMBOL = "TQQQ"
+# What to trade — BTC/USD trades 24/7 including overnight Asian session
+SYMBOL = "BTC/USD"
 
 # Risk settings
 RISK_PER_TRADE_PCT = 0.01     # 1% of account per trade
