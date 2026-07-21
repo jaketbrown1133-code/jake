@@ -13,10 +13,10 @@ import logging
 import schedule
 from datetime import datetime, timezone, timedelta
 
-from data_feed import get_current_price, get_account_balance
+from data_feed import get_current_price, get_account_balance, get_open_position
 from strategy import build_range, check_for_signal
 from risk_manager import RiskManager
-from executor import place_order, cancel_all_orders, close_all_positions
+from executor import place_order, cancel_all_orders, close_all_positions, close_position
 from journal import log_trade, send_alert
 from config import (
     SYMBOL, SESSION_CLOSE_HOUR, SESSION_CLOSE_MINUTE, RANGE_BUILD_START_HOUR
@@ -72,6 +72,11 @@ def run_session():
                 time.sleep(60)
                 continue
 
+            # Don't enter a new trade if one is already open
+            if get_open_position() is not None:
+                time.sleep(30)
+                continue
+
             signal = check_for_signal(session_range)
 
             if signal:
@@ -105,29 +110,22 @@ def _wait_for_resolution(signal, risk: RiskManager, timeout_seconds=3600):
 
         if signal.direction == "BUY":
             if price <= signal.stop_loss:
-                pnl = signal.stop_loss - signal.entry
+                logger.info(f"Stop loss hit at {price:.2f} — closing position.")
+                close_position()
+                pnl = (signal.stop_loss - signal.entry)
                 risk.record_trade(pnl)
                 log_trade(SYMBOL, signal.direction, signal.entry, signal.stop_loss,
                           signal.take_profit, 1, outcome="STOPPED OUT", pnl=pnl)
+                send_alert("Stop Loss Hit", f"{SYMBOL} stopped out at {price:.2f}. PnL: ${pnl:.2f}")
                 return
             if price >= signal.take_profit:
-                pnl = signal.take_profit - signal.entry
+                logger.info(f"Take profit hit at {price:.2f} — closing position.")
+                close_position()
+                pnl = (signal.take_profit - signal.entry)
                 risk.record_trade(pnl)
                 log_trade(SYMBOL, signal.direction, signal.entry, signal.stop_loss,
                           signal.take_profit, 1, outcome="TARGET HIT", pnl=pnl)
-                return
-        else:
-            if price >= signal.stop_loss:
-                pnl = signal.entry - signal.stop_loss
-                risk.record_trade(-pnl)
-                log_trade(SYMBOL, signal.direction, signal.entry, signal.stop_loss,
-                          signal.take_profit, 1, outcome="STOPPED OUT", pnl=-pnl)
-                return
-            if price <= signal.take_profit:
-                pnl = signal.entry - signal.take_profit
-                risk.record_trade(pnl)
-                log_trade(SYMBOL, signal.direction, signal.entry, signal.stop_loss,
-                          signal.take_profit, 1, outcome="TARGET HIT", pnl=pnl)
+                send_alert("Take Profit Hit!", f"{SYMBOL} target hit at {price:.2f}. PnL: ${pnl:.2f}")
                 return
 
         time.sleep(10)
