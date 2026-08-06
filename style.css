@@ -17,7 +17,7 @@
   /* Pergola accent */
   --color-pergola-primary: #1F2E2A;
   --color-pergola-primary-light: #2B3F39;
-  --color-pergola-accent: #8A9A8E;
+  --color-pergola-accent: #9FAEA3;
 
   /* Utility */
   --color-success: #3F7D4F;
@@ -319,7 +319,7 @@ button {
   font-size: 0.85rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-awning-primary);
+  color: var(--color-awning-primary-dark);
   margin-bottom: var(--space-4);
 }
 
@@ -423,7 +423,7 @@ button {
   font-size: 0.85rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-awning-primary);
+  color: var(--color-awning-primary-dark);
   margin-bottom: var(--space-3);
 }
 
@@ -874,6 +874,10 @@ button {
   align-items: start;
 }
 
+.quote-wrap > * {
+  min-width: 0;
+}
+
 .quote-intro {
   text-align: left;
 }
@@ -895,6 +899,7 @@ button {
 .quote-contact-list a {
   color: var(--color-ink);
   font-weight: 600;
+  overflow-wrap: anywhere;
 }
 
 .quote-contact-list a:hover {
@@ -923,6 +928,7 @@ button {
 
 .form-row-split > div {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
@@ -934,9 +940,21 @@ button {
   color: var(--color-ink);
 }
 
+.required-mark {
+  color: var(--color-awning-primary-dark);
+}
+
+.form-required-note {
+  margin: calc(-1 * var(--space-2)) 0 0;
+  font-size: 0.8rem;
+  color: var(--color-charcoal);
+}
+
 .quote-form input,
 .quote-form select,
 .quote-form textarea {
+  width: 100%;
+  min-width: 0;
   font: inherit;
   font-size: 0.95rem;
   padding: var(--space-3);
@@ -988,8 +1006,20 @@ button {
   gap: var(--space-6);
 }
 
+.footer-inner > * {
+  min-width: 0;
+}
+
+.footer-col a {
+  overflow-wrap: anywhere;
+}
+
 .footer-brand .logo {
   color: var(--color-paper);
+}
+
+.footer-brand .logo span {
+  color: #E0894A;
 }
 
 .footer-brand p {
@@ -1000,7 +1030,7 @@ button {
   color: rgba(245, 246, 244, 0.65);
 }
 
-.footer-col h4 {
+.footer-col h3 {
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -1123,9 +1153,8 @@ button {
 }
 
 @media (max-width: 560px) {
-  .nav-actions .btn {
-    padding: var(--space-2) var(--space-4);
-    font-size: 0.85rem;
+  .nav-actions {
+    display: none;
   }
 
   .hero {
