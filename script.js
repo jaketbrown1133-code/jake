@@ -23,7 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const formStatus = document.getElementById("form-status");
 
   if (quoteForm && formStatus) {
-    quoteForm.addEventListener("submit", (event) => {
+    const submitButton = quoteForm.querySelector("button[type=submit]");
+
+    quoteForm.addEventListener("submit", async (event) => {
       event.preventDefault();
 
       if (!quoteForm.checkValidity()) {
@@ -33,12 +35,31 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // TODO: wire this up to a real form backend (e.g. Formspree, Netlify
-      // Forms, or a serverless function) before launch. This currently only
-      // confirms client-side and does not send the lead anywhere.
-      formStatus.textContent = "Thanks! We'll be in touch soon to schedule your consultation.";
-      formStatus.className = "form-status is-success";
-      quoteForm.reset();
+      submitButton.disabled = true;
+      formStatus.textContent = "Sending…";
+      formStatus.className = "form-status";
+
+      try {
+        const response = await fetch(quoteForm.action, {
+          method: "POST",
+          body: new FormData(quoteForm),
+          headers: { Accept: "application/json" },
+        });
+
+        if (response.ok) {
+          formStatus.textContent = "Thanks! We'll be in touch soon to schedule your consultation.";
+          formStatus.className = "form-status is-success";
+          quoteForm.reset();
+        } else {
+          formStatus.textContent = "Something went wrong. Please call us at (845) 566-4000 or try again.";
+          formStatus.className = "form-status is-error";
+        }
+      } catch (err) {
+        formStatus.textContent = "Something went wrong. Please call us at (845) 566-4000 or try again.";
+        formStatus.className = "form-status is-error";
+      } finally {
+        submitButton.disabled = false;
+      }
     });
   }
 });
