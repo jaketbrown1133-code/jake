@@ -400,9 +400,22 @@ button {
 }
 
 .awnings-intro {
-  max-width: 680px;
-  margin: 0 auto;
-  text-align: center;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: var(--space-7);
+  align-items: center;
+}
+
+.awnings-intro-text {
+  text-align: left;
+}
+
+.awnings-intro-photo {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: var(--radius);
 }
 
 .section-eyebrow {
@@ -436,6 +449,18 @@ button {
 .product-card {
   background: var(--color-awning-tint);
   border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.product-photo {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.product-card-body {
   padding: var(--space-5) var(--space-4);
 }
 
@@ -562,6 +587,19 @@ button {
 
   .credibility-block {
     grid-template-columns: 1fr;
+  }
+
+  .awnings-intro {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  .awnings-intro-text {
+    text-align: center;
+  }
+
+  .awnings-intro-photo {
+    order: -1;
   }
 }
 
