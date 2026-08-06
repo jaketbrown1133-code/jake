@@ -860,6 +860,187 @@ button {
 }
 
 /* ============================================
+   Quote form
+   ============================================ */
+.quote {
+  background: var(--color-mist);
+  padding: var(--space-8) 0;
+}
+
+.quote-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+.quote-intro {
+  text-align: left;
+}
+
+.quote-intro .section-lead {
+  max-width: 420px;
+}
+
+.quote-contact-list {
+  margin-top: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-charcoal);
+}
+
+.quote-contact-list a {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.quote-contact-list a:hover {
+  color: var(--color-awning-primary);
+}
+
+.quote-form {
+  background: var(--color-paper);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.form-row-split {
+  flex-direction: row;
+  gap: var(--space-4);
+}
+
+.form-row-split > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.quote-form label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.quote-form input,
+.quote-form select,
+.quote-form textarea {
+  font: inherit;
+  font-size: 0.95rem;
+  padding: var(--space-3);
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.quote-form textarea {
+  resize: vertical;
+}
+
+.btn-block {
+  width: 100%;
+  margin-top: var(--space-2);
+}
+
+.form-status {
+  min-height: 1.2em;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.form-status.is-success {
+  color: var(--color-success);
+}
+
+.form-status.is-error {
+  color: var(--color-error);
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+.site-footer {
+  background: var(--color-ink);
+  color: rgba(245, 246, 244, 0.75);
+  padding: var(--space-7) 0 var(--space-5);
+}
+
+.footer-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+  display: grid;
+  grid-template-columns: 1.4fr repeat(4, 1fr);
+  gap: var(--space-6);
+}
+
+.footer-brand .logo {
+  color: var(--color-paper);
+}
+
+.footer-brand p {
+  margin-top: var(--space-3);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  max-width: 320px;
+  color: rgba(245, 246, 244, 0.65);
+}
+
+.footer-col h4 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-paper);
+  margin-bottom: var(--space-3);
+}
+
+.footer-col ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.footer-col a {
+  color: rgba(245, 246, 244, 0.75);
+}
+
+.footer-col a:hover {
+  color: var(--color-awning-primary);
+}
+
+.footer-bottom {
+  margin-top: var(--space-7);
+  padding: var(--space-4) var(--space-5) 0;
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  border-top: 1px solid rgba(245, 246, 244, 0.15);
+}
+
+.footer-bottom p {
+  font-size: 0.78rem;
+  color: rgba(245, 246, 244, 0.5);
+  line-height: 1.6;
+}
+
+/* ============================================
    Responsive
    ============================================ */
 @media (max-width: 880px) {
@@ -925,6 +1106,20 @@ button {
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .quote-wrap {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .footer-inner {
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: var(--space-6);
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (max-width: 560px) {
@@ -979,5 +1174,13 @@ button {
 
   .gallery-grid {
     grid-template-columns: 1fr;
+  }
+
+  .form-row-split {
+    flex-direction: column;
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
   }
 }

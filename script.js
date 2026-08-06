@@ -18,4 +18,27 @@ document.addEventListener("DOMContentLoaded", () => {
       mobileMenu.classList.remove("is-open");
     });
   });
+
+  const quoteForm = document.getElementById("quote-form");
+  const formStatus = document.getElementById("form-status");
+
+  if (quoteForm && formStatus) {
+    quoteForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (!quoteForm.checkValidity()) {
+        quoteForm.reportValidity();
+        formStatus.textContent = "Please fill in the required fields.";
+        formStatus.className = "form-status is-error";
+        return;
+      }
+
+      // TODO: wire this up to a real form backend (e.g. Formspree, Netlify
+      // Forms, or a serverless function) before launch. This currently only
+      // confirms client-side and does not send the lead anywhere.
+      formStatus.textContent = "Thanks! We'll be in touch soon to schedule your consultation.";
+      formStatus.className = "form-status is-success";
+      quoteForm.reset();
+    });
+  }
 });

@@ -328,7 +328,119 @@
         </div>
       </div>
     </section>
+
+    <section class="quote" id="quote">
+      <div class="section-inner">
+        <div class="quote-wrap">
+          <div class="quote-intro">
+            <p class="section-eyebrow neutral-eyebrow">Get a Quote</p>
+            <h2 class="section-title">Tell us about your project</h2>
+            <p class="section-lead">Awning, solar screen, or motorized pergola &mdash; share a few details and we'll follow up to schedule a free consultation.</p>
+
+            <ul class="quote-contact-list">
+              <li><a href="tel:+18455664000">(845) 566-4000</a></li>
+              <li><a href="tel:1-800-SHADE-USA">(800) SHADE-USA</a></li>
+              <li><a href="mailto:jaketbrown1133@gmail.com">jaketbrown1133@gmail.com</a></li>
+              <li>2435 RT 32, New Windsor, NY 12553</li>
+            </ul>
+          </div>
+
+          <form class="quote-form" id="quote-form" novalidate>
+            <div class="form-row">
+              <label for="qf-name">Name</label>
+              <input type="text" id="qf-name" name="name" required autocomplete="name" />
+            </div>
+
+            <div class="form-row form-row-split">
+              <div>
+                <label for="qf-phone">Phone</label>
+                <input type="tel" id="qf-phone" name="phone" required autocomplete="tel" />
+              </div>
+              <div>
+                <label for="qf-email">Email</label>
+                <input type="email" id="qf-email" name="email" required autocomplete="email" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label for="qf-address">Address / ZIP</label>
+              <input type="text" id="qf-address" name="address" required autocomplete="postal-code" />
+            </div>
+
+            <div class="form-row">
+              <label for="qf-project">Project Type</label>
+              <select id="qf-project" name="project-type" required>
+                <option value="" disabled selected>Select one&hellip;</option>
+                <option value="awning">Awning</option>
+                <option value="solar-screen">Solar / Privacy Screen</option>
+                <option value="pergola">Motorized Pergola</option>
+                <option value="not-sure">Not Sure</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="qf-message">Tell us more (optional)</label>
+              <textarea id="qf-message" name="message" rows="4"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Request My Quote</button>
+            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#top" class="logo">Undercover<span>Awning</span></a>
+        <p>Retractable &amp; stationary awnings, solar screens, and Azenco motorized pergolas across the Hudson Valley and Northern NJ.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+18455664000">(845) 566-4000</a></li>
+          <li><a href="tel:1-800-SHADE-USA">(800) SHADE-USA</a></li>
+          <li><a href="mailto:jaketbrown1133@gmail.com">jaketbrown1133@gmail.com</a></li>
+          <li>2435 RT 32<br />New Windsor, NY 12553</li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Hours</h4>
+        <ul>
+          <li>Mon&ndash;Fri: 10am&ndash;5pm</li>
+          <li>Saturday: By appointment</li>
+          <li>Sunday: Closed</li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Service Area</h4>
+        <ul>
+          <li>Westchester, Putnam, Dutchess, Sullivan, Ulster, Orange &amp; Rockland Counties, NY</li>
+          <li>Plus Northern New Jersey</li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#awnings">Awnings</a></li>
+          <li><a href="#pergolas">Pergolas</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#quote">Get a Quote</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Undercover Awning, formerly Awning FX. Licensed in Putnam (PC1911-A), Rockland (H-07-08915), Westchester (WC-10886-H00) &amp; New Jersey (1015340). No license required in Orange or Dutchess County.</p>
+    </div>
+  </footer>
 
   <script src="script.js"></script>
 </body>
